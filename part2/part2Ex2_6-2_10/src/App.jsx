@@ -73,9 +73,11 @@
 // }
 
 // export default App;
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 // Component for filtering/searching
+
+
 const Filter = ({ searchName, handleSearchChange }) => (
   <div>
     Search by Name: <input type="text" value={searchName} onChange={handleSearchChange} />
@@ -124,6 +126,17 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+        console.log(response.data)
+      })
+  }, [])
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
